@@ -194,7 +194,7 @@ st.write(f"Coordinadores mostrados: {len(orden)}")
 
 # ---------- Plantilla HTML de tarjeta ----------
 
-with open("D:/OnePage/Resources/Templates/tarjeta.html", "r", encoding="utf-8") as f:
+with open("OnePage/Resources/Templates/tarjeta.html", "r", encoding="utf-8") as f:
     tarjeta_template = Template(f.read())
 
 # ---------- Calcular promedio por cobrador y ordenar ----------
@@ -313,3 +313,4 @@ for nombre in orden:
     )
 
     st.markdown(tarjeta_html, unsafe_allow_html=True)
+
