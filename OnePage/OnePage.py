@@ -93,7 +93,7 @@ def load_visualizations(nombre, semana):
     tipos = ["dictamen", "pagoscumpli"]
     visuales = []
     for tipo in tipos:
-        ruta = f"D:/OnePage/Resources/Visualizations/{semana}/{nombre}_{tipo}.png"
+        ruta = f"OnePage/Resources/Visualizations/{semana}/{nombre}_{tipo}.png"
         if os.path.exists(ruta):
             img_b64 = image_to_base64(ruta)
             visuales.append(f'''<div class="grafico">
@@ -108,11 +108,11 @@ def load_data(path):
     df["motos"] = df["motos"].apply(lambda x: int(x.split()[1]) if isinstance(x, str) and len(x.split()) > 1 else None)
     df.rename(columns={"meta": "logros_meta"}, inplace=True)
     df["nombre_junto"] = df["nombre"].str.replace(" ", "", regex=False)
-    df["foto"] = "D:/OnePage/Resources/Photos/" + df["nombre_junto"] + "Pic.png"
+    df["foto"] = "OnePage/Resources/Photos/" + df["nombre_junto"] + "Pic.png"
     df["foto_b64"] = df["foto"].apply(image_to_base64)
     return df
 
-df = load_data("D:/OnePage/Data/op_sl_sem44.xlsx")
+df = load_data("OnePage/Data/op_sl_sem44.xlsx")
 
 
 # ---------------------------------------------------------------------
@@ -121,14 +121,14 @@ df = load_data("D:/OnePage/Data/op_sl_sem44.xlsx")
 st.set_page_config(page_title="One Page - Cobranza", layout="wide")
 
 # ---------- CSS ----------
-with open("D:/OnePage/Resources/CSS/estilos.css") as f:
+with open("OnePage/Resources/CSS/estilos.css") as f:
     css = f.read()
 
 st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 # ---------- HEADER superior institucional ----------
 
-logo_fincobranza = image_to_base64("D:/OnePage/Resources/Logos/Logo_Fincomun.png")
+logo_fincobranza = image_to_base64("OnePage/Resources/Logos/Logo_Fincomun.png")
 
 header_html = f"""<div class="header-institucional" style="
     display: flex;
@@ -311,4 +311,5 @@ for nombre in orden:
         foto=foto_html,
         visualizaciones=grafico_html
     )
+
     st.markdown(tarjeta_html, unsafe_allow_html=True)
