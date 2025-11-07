@@ -102,7 +102,7 @@ def load_visualizations(nombre, semana):
     return "".join(visuales)
 
 @st.cache_data
-def load_data(path):
+def load_data_coord(path):
     df = pd.read_excel(path, sheet_name="one_page", engine="openpyxl")
     df.fillna(0, inplace=True)
     df["motos"] = df["motos"].apply(lambda x: int(x.split()[1]) if isinstance(x, str) and len(x.split()) > 1 else None)
@@ -112,9 +112,15 @@ def load_data(path):
     df["foto_b64"] = df["foto"].apply(image_to_base64)
     return df
 
-df = load_data("OnePage/Data/op_sl_sem44.xlsx")
+df = load_data_coord("OnePage/Data/op_sl_sem44.xlsx")
 
+@st.cache_data
+def load_data_eres(path):
+    df = pd.read_csv(path)
+    df.fillna(0, inplace=True)  
+    return df
 
+df_eres = load_data_eres("OnePage/Data/agentes_streamlit_sem45_JUE.csv")
 # ---------------------------------------------------------------------
 
 # ---------- Configuración de página ----------
@@ -311,6 +317,9 @@ for nombre in orden:
         foto=foto_html,
         visualizaciones=grafico_html
     )
-
     st.markdown(tarjeta_html, unsafe_allow_html=True)
 
+    if coordinador_sel != "Todos":
+        df_eres = df_eres[df_eres["nombre"] == coordinador_sel]
+        df_vista = df_eres.drop(columns=["nombre"])
+        st.dataframe(df_vista, use_container_width=True)
